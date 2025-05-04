@@ -5,8 +5,142 @@ import random
 import plotly.express as px
 import pandas as pd
 from io import BytesIO
+from PIL import Image
+import base64
+import os
+import time
 
-# Fonction pour générer des données simulées
+# ---------- MULTILINGUE ----------
+translations = {
+    "fr": {
+        "app_title": "🎯 MarketPlus - Version Démo",
+        "welcome_banner": "📢 Découvrez comment booster vos campagnes avec l'intelligence des données !",
+        "welcome_sub": "Optimisez vos performances marketing en quelques clics avec <b>MarketPlus</b> 💡",
+        "premium_title": "🔐 Accès Premium",
+        "enter_code": "Entrez votre code Premium",
+        "code_valid": "✅ Mode Premium activé - Fonctionnalités débloquées !",
+        "code_invalid": "❌ Code incorrect - Essayez 'PREMIUM2025'",
+        "dashboard": "📊 Tableau de bord de la campagne",
+        "analysis": "📈 Analyse détaillée",
+        "charts": "📊 Graphiques de la campagne",
+        "settings": "⚙️ Paramètres de la campagne",
+        "menu": "Menu",
+        "objective": "Objectif",
+        "budget": "Budget (€)",
+        "duration": "Durée (jours)",
+        "reach": "Portée",
+        "engagement": "Engagement",
+        "conversions": "Conversions",
+        "update_success": "✅ Paramètres mis à jour avec succès !",
+        "generate_pdf": "📄 Générer le rapport PDF",
+        "download_pdf": "📥 Télécharger le PDF",
+        "premium_info": "🔒 Version limitée - Activez le mode Premium pour débloquer toutes les fonctionnalités",
+        "language": "🌐 Langue",
+        "contact": "🔗 Me contacter sur LinkedIn",
+        "signature": "🏅 Réalisé par Sofiane Chehboune<br>✅ 9 ans en gestion, ≈ 3 ans en Data Analysis et ML<br>📊 Python, Streamlit, PyGWalker, Plotly,...",
+        "metrics_title": "📈 Métriques Clés",
+        "performance": "🚀 Performance de la Campagne",
+        "recommendations": "💡 Recommandations Intelligentes",
+        "premium_button": "🚀 Accéder à la Version Premium",
+        "premium_page": "💎 Version Premium",
+        "premium_features": "🚀 Boostez votre expérience utilisateur",
+        "premium_description": "La version <strong>Premium</strong> vous donne accès à des fonctionnalités avancées, un support prioritaire et bien plus encore !",
+        "watch_video": "🎥 Voir la vidéo explicative",
+        "upgrade": "🛒 Passer à la version Premium",
+        "contact_us": "📩 Une question ? Contactez-nous",
+        "your_name": "Votre nom",
+        "your_email": "Votre e-mail",
+        "your_message": "Votre message",
+        "send": "Envoyer",
+        "thanks": "✅ Merci ! Nous vous répondrons rapidement."
+    },
+    "en": {
+        "app_title": "🎯 MarketPlus - Demo Version",
+        "welcome_banner": "📢 Discover how to boost your campaigns with data intelligence!",
+        "welcome_sub": "Optimize your marketing performance in a few clicks with <b>MarketPlus</b> 💡",
+        "premium_title": "🔐 Premium Access",
+        "enter_code": "Enter your Premium code",
+        "code_valid": "✅ Premium mode activated - Features unlocked!",
+        "code_invalid": "❌ Incorrect code - Try 'PREMIUM2025'",
+        "dashboard": "📊 Campaign Dashboard",
+        "analysis": "📈 Detailed Analysis",
+        "charts": "📊 Campaign Charts",
+        "settings": "⚙️ Campaign Settings",
+        "menu": "Menu",
+        "objective": "Objective",
+        "budget": "Budget (€)",
+        "duration": "Duration (days)",
+        "reach": "Reach",
+        "engagement": "Engagement",
+        "conversions": "Conversions",
+        "update_success": "✅ Settings updated successfully!",
+        "generate_pdf": "📄 Generate PDF Report",
+        "download_pdf": "📥 Download PDF",
+        "premium_info": "🔒 Limited version - Activate Premium mode to unlock all features",
+        "language": "🌐 Language",
+        "contact": "🔗 Contact me on LinkedIn",
+        "signature": "🏅 Created by Sofiane Chehboune<br>✅ 9 years in management, ≈ 3 years in Data Analysis and ML<br>📊 Python, Streamlit, PyGWalker, Plotly,...",
+        "metrics_title": "📈 Key Metrics",
+        "performance": "🚀 Campaign Performance",
+        "recommendations": "💡 Smart Recommendations",
+        "premium_button": "🚀 Access Premium Version",
+        "premium_page": "💎 Premium Version",
+        "premium_features": "🚀 Boost your user experience",
+        "premium_description": "The <strong>Premium</strong> version gives you access to advanced features, priority support and much more!",
+        "watch_video": "🎥 Watch explanatory video",
+        "upgrade": "🛒 Upgrade to Premium",
+        "contact_us": "📩 Any questions? Contact us",
+        "your_name": "Your name",
+        "your_email": "Your email",
+        "your_message": "Your message",
+        "send": "Send",
+        "thanks": "✅ Thank you! We'll get back to you soon."
+    },
+    "ar": {
+        "app_title": "🎯 ماركت بلس - النسخة التجريبية",
+        "welcome_banner": "📢 اكتشف كيف تعزز حملاتك بذكاء البيانات!",
+        "welcome_sub": "حسّن أداءك التسويقي بسهولة مع <b>ماركت بلس</b> 💡",
+        "premium_title": "🔐 الوصول المميز",
+        "enter_code": "أدخل رمز Premium",
+        "code_valid": "✅ تم تفعيل الوضع المميز - الميزات متاحة الآن!",
+        "code_invalid": "❌ الرمز غير صحيح - جرب 'PREMIUM2025'",
+        "dashboard": "📊 لوحة تحكم الحملة",
+        "analysis": "📈 التحليل التفصيلي",
+        "charts": "📊 الرسوم البيانية للحملة",
+        "settings": "⚙️ إعدادات الحملة",
+        "menu": "القائمة",
+        "objective": "الهدف",
+        "budget": "الميزانية (€)",
+        "duration": "المدة (أيام)",
+        "reach": "الوصول",
+        "engagement": "التفاعل",
+        "conversions": "التحويلات",
+        "update_success": "✅ تم تحديث الإعدادات بنجاح!",
+        "generate_pdf": "📄 توليد تقرير PDF",
+        "download_pdf": "📥 تحميل PDF",
+        "premium_info": "🔒 هذه النسخة محدودة - قم بتفعيل الوضع المميز لفتح جميع الميزات",
+        "language": "🌐 اللغة",
+        "contact": "🔗 تواصل معي عبر لينكدإن",
+        "signature": "🏅 أنجزه سفيان شهبون<br>✅ 9 سنوات في الإدارة، ≈ 3 سنوات في تحليل البيانات وتعلم الآلة<br>📊 Python، Streamlit، PyGWalker، Plotly...",
+        "metrics_title": "📈 المقاييس الرئيسية",
+        "performance": "🚀 أداء الحملة",
+        "recommendations": "💡 توصيات ذكية",
+        "premium_button": "🚀 الوصول إلى النسخة المميزة",
+        "premium_page": "💎 النسخة المميزة",
+        "premium_features": "🚀 عزز تجربة المستخدم الخاصة بك",
+        "premium_description": "النسخة <strong>المميزة</strong> تمنحك إمكانية الوصول إلى ميزات متقدمة ودعم أولي وغير ذلك الكثير!",
+        "watch_video": "🎥 مشاهدة الفيديو التوضيحي",
+        "upgrade": "🛒 الترقية إلى النسخة المميزة",
+        "contact_us": "📩 لديك سؤال؟ اتصل بنا",
+        "your_name": "اسمك",
+        "your_email": "بريدك الإلكتروني",
+        "your_message": "رسالتك",
+        "send": "إرسال",
+        "thanks": "✅ شكرًا! سوف نرد عليك قريبًا."
+    }
+}
+
+# ---------- BASE FUNCTIONS ----------
 def generate_demo_data():
     return {
         "objectif": "Augmenter les ventes",
@@ -17,147 +151,365 @@ def generate_demo_data():
         "conversions": random.randint(100, 1000)
     }
 
-# Fonction pour générer un graphique à barres (démonstration)
-def generate_bar_chart(data):
-    fig = px.bar(
-        data_frame=data,
-        x="category",
-        y="value",
-        title="Analyse de la campagne"
-    )
-    return fig
+def generate_charts(data, t):
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("📊 " + t["performance"])
+        df_bar = pd.DataFrame({
+            "category": [t["reach"], t["engagement"], t["conversions"]],
+            "value": [data["reach"], data["engagement"], data["conversions"]]
+        })
+        fig_bar = px.bar(df_bar, x="category", y="value", color="category",
+                        color_discrete_sequence=px.colors.qualitative.Pastel)
+        st.plotly_chart(fig_bar, use_container_width=True)
+    
+    with col2:
+        st.subheader("📈 " + t["metrics_title"])
+        df_pie = pd.DataFrame({
+            "category": [t["budget"], t["duration"]],
+            "value": [data["budget"], data["duration"]]
+        })
+        fig_pie = px.pie(df_pie, values="value", names="category",
+                        color_discrete_sequence=px.colors.qualitative.Pastel)
+        st.plotly_chart(fig_pie, use_container_width=True)
 
-# Fonction pour sauvegarder le PDF avec les données simulées
-def save_pdf(objectif, budget, duration, reach, engagement, conversions):
+def save_pdf(objectif, budget, duration, reach, engagement, conversions, t):
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=letter)
     
-    # Définir la police et la taille
+    # Header
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(100, 750, "📊 Rapport de Campagne Marketing")
     c.setFont("Helvetica", 12)
+    c.drawString(100, 730, f"Date : {time.strftime('%d/%m/%Y')}")
+    c.line(100, 725, 500, 725)
     
-    # Titre avec un emoji (UTF-8)
-    c.drawString(100, 750, "🎯 Rapport de Campagne")
-    c.drawString(100, 730, f"Objectif : {objectif}")
-    c.drawString(100, 710, f"Budget : {budget} €")
-    c.drawString(100, 690, f"Durée : {duration} jours")
-    c.drawString(100, 670, f"Portée estimée : {reach}")
-    c.drawString(100, 650, f"Engagement estimé : {engagement}")
-    c.drawString(100, 630, f"Conversions estimées : {conversions}")
-
-    # Enregistrer le PDF dans un buffer
+    # Campaign Details
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 700, "🔍 Détails de la Campagne")
+    c.setFont("Helvetica", 12)
+    c.drawString(100, 680, f"🎯 {t['objective']} : {objectif}")
+    c.drawString(100, 660, f"💰 {t['budget']} : {budget} €")
+    c.drawString(100, 640, f"⏱️ {t['duration']} : {duration} jours")
+    
+    # Metrics
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 610, "📈 Métriques de Performance")
+    c.setFont("Helvetica", 12)
+    c.drawString(100, 590, f"👥 {t['reach']} : {reach}")
+    c.drawString(100, 570, f"💬 {t['engagement']} : {engagement}")
+    c.drawString(100, 550, f"🔄 {t['conversions']} : {conversions}")
+    
+    # Footer
+    c.setFont("Helvetica-Oblique", 10)
+    c.drawString(100, 100, "Généré avec MarketPlus - Solution d'analyse marketing intelligente")
+    
     c.showPage()
     c.save()
-    
-    # Retourner le contenu du PDF sous forme de bytes
     buffer.seek(0)
-    return buffer.read()
+    return buffer
 
-# Fonction principale
+def display_metrics(data, t):
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric(label=t["reach"], value=f"{data['reach']:,}", delta="+12% vs attente")
+    
+    with col2:
+        st.metric(label=t["engagement"], value=f"{data['engagement']:,}", delta="+8% vs attente")
+    
+    with col3:
+        st.metric(label=t["conversions"], value=f"{data['conversions']:,}", delta="+15% vs attente")
+
+def display_recommendations(t):
+    st.subheader(t["recommendations"])
+    with st.expander("💡 Voir les recommandations"):
+        st.success("✅ Augmenter le budget de 15% pour maximiser la portée")
+        st.warning("⚠️ Optimiser les créneaux horaires pour améliorer l'engagement")
+        st.info("ℹ️ Tester de nouvelles créations publicitaires pour booster les conversions")
+
+def show_premium_page(t):
+    st.markdown(f"## {t['premium_page']}")
+    
+    # Encadré de présentation
+    st.markdown(f"""
+    <div style='background-color:#f9f1ff; padding:15px; border-radius:10px; border:1px solid #d1b3ff'>
+        <h4>{t['premium_features']}</h4>
+        <p>{t['premium_description']}</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Bouton pour voir la vidéo
+    if st.button(t["watch_video"]):
+        st.video("https://www.youtube.com/watch?v=TON_ID_VIDEO")  # Remplace par ton lien YouTube
+
+        
+    
+    # Lien vers la page d'achat
+    st.markdown(f"""
+    ### {t['upgrade']}
+    <div style="display:flex; gap:20px; margin:20px 0;">
+    <div style="flex:2; background:#f8f5ff; padding:20px; border-radius:10px;">
+        <h4 style="color:#6e00ff;">Pourquoi passer à la version Premium ?</h4>
+        <ul style="padding-left:20px;">
+            <li>📈 <strong>Analyses avancées</strong> - Découvrez des insights exclusifs</li>
+            <li>🚀 <strong>Performances accrues</strong> - Jusqu'à 3x plus efficace</li>
+            <li>🛡️ <strong>Sécurité renforcée</strong> - Protection des données premium</li>
+            <li>🤝 <strong>Support prioritaire</strong> - Réponse en moins de 2h</li>
+        </ul>
+        
+    <a href="https://votre-lien-achat.com" target="_blank">
+        <button style="background:linear-gradient(135deg, #6e00ff, #a100ff); color:white; 
+                        border:none; padding:12px 24px; border-radius:8px; font-size:16px; 
+                        cursor:pointer; margin-top:10px;">
+                Débloquer toutes les fonctionnalités
+            </button>
+        </a>
+    </div>
+    
+    <div style="flex:1; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        <div style="display:flex; align-items:center; margin-bottom:15px;">
+            <img src="sofiane.jpg" style="width:50px; height:50px; border-radius:50%; margin-right:10px;">
+            <div>
+                <h5 style="margin:0;">Sofiane Ch.</h5>
+                <div style="color:gold;">★★★★★</div>
+            </div>
+        </div>
+        <p style="font-style:italic; color:#555;">
+            "MarketPlus Premium a transformé notre façon de faire du marketing. Les rapports avancés nous ont permis d'augmenter notre ROI de 40% en 3 mois seulement !"
+        </p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    
+    
+    # Formulaire de contact
+    st.markdown("---")
+    st.markdown(f"### {t['contact_us']}")
+    
+    with st.form("contact_form"):
+        name = st.text_input(t["your_name"])
+        email = st.text_input(t["your_email"])
+        message = st.text_area(t["your_message"])
+        
+        submitted = st.form_submit_button(t["send"])
+        
+        if submitted:
+            st.success(t["thanks"])
+
+# ---------- MAIN ----------
 def main():
-    st.set_page_config(page_title="MarketPlus - Démo", layout="wide")
+    st.set_page_config(page_title="MarketPlus", layout="wide", page_icon="📈")
+    
+    # CSS personnalisé
+    st.markdown("""
+    <style>
+        .main {background-color: #f9f9f9;}
+        .stButton>button {border-radius: 8px; padding: 8px 16px;}
+        .stTextInput>div>div>input {border-radius: 8px;}
+        .stNumberInput>div>div>input {border-radius: 8px;}
+        .metric {border-left: 4px solid #4e79a7; padding-left: 15px;}
+        .st-bb {background-color: white;}
+        .st-at {background-color: #f0f2f6;}
+        div[data-testid="stExpander"] div[role="button"] p {font-size: 16px;}
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Langue
+    langue = st.sidebar.selectbox("🌐 Langue", ["Français", "English", "العربية"])
+    code_langue = {"Français": "fr", "English": "en", "العربية": "ar"}[langue]
+    t = translations[code_langue]
 
-    # Menu latéral
-    st.sidebar.title("Menu de la campagne")
-    menu = st.sidebar.radio("Choisir une option", ("Tableau de bord", "Analyse", "Graphiques", "Paramètres"))
+    # Header avec onglets
+    st.markdown(f"""
+    <div style="background:linear-gradient(135deg, #6e8efb, #a777e3);padding:20px;border-radius:10px;color:white;margin-bottom:20px;">
+        <h1 style="color:white;margin:0;">{t["app_title"]}</h1>
+        <p style="margin:0;opacity:0.9;">{t["welcome_sub"]}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    # Générer des données simulées
-    data = generate_demo_data()
+    # Section Premium
+    st.sidebar.markdown(f"## {t['premium_title']}")
+    premium_code = "PREMIUM2025"
+    code_saisi = st.sidebar.text_input(t["enter_code"], type="password", help="Essayez 'PREMIUM2025' pour la démo")
+    
+    premium_activated = st.session_state.get("premium_activated", False)
+    if code_saisi and not premium_activated:
+        if code_saisi == premium_code:
+            st.session_state.premium_activated = True
+            st.sidebar.success(t["code_valid"])
+            # Bouton d'accès à la version premium
+            st.sidebar.markdown(
+                f"""
+                <a href="https://marketpulse-ai-cioz3bh3tuv3vf5swqgqwu.streamlit.app/" target="_blank">
+                    <button style="width:100%;background-color:#4CAF50;color:white;padding:10px;border:none;border-radius:5px;margin-top:10px;margin-bottom:20px;">
+                        {t['premium_button']}
+                    </button>
+                </a>
+                """,
+                unsafe_allow_html=True
+            )
+        else:
+            st.sidebar.error(t["code_invalid"])
+    
+    if not premium_activated:
+        st.sidebar.warning(t["premium_info"])
 
-    # Utiliser session_state pour garder les valeurs des paramètres
-    if 'objectif' not in st.session_state:
-        st.session_state.objectif = data['objectif']
-        st.session_state.budget = data['budget']
-        st.session_state.duration = data['duration']
-        st.session_state.reach = data['reach']
-        st.session_state.engagement = data['engagement']
-        st.session_state.conversions = data['conversions']
+    # Signature et contact
+    st.sidebar.markdown("---")
+    st.sidebar.markdown(f"<small>{t['signature']}</small>", unsafe_allow_html=True)
+    st.sidebar.markdown(f"""
+    <a href="https://www.linkedin.com/in/sofiane-chehboune-5b243766/" target="_blank">
+        <button style="width:100%;background-color:#0a66c2;color:white;padding:10px;border:none;border-radius:5px;margin-top:20px;">
+            {t['contact']}
+        </button>
+    </a>
+    """, unsafe_allow_html=True)
 
-    # Page Tableau de bord
-    if menu == "Tableau de bord":
-        st.title("Tableau de bord de la campagne")
-        st.write(f"**Objectif** : {st.session_state.objectif}")
-        st.write(f"**Budget** : {st.session_state.budget} €")
-        st.write(f"**Durée** : {st.session_state.duration} jours")
-        st.write(f"**Portée estimée** : {st.session_state.reach}")
-        st.write(f"**Engagement estimé** : {st.session_state.engagement}")
-        st.write(f"**Conversions estimées** : {st.session_state.conversions}")
+    # Initialisation des données de session
+    if "campaign_data" not in st.session_state:
+        st.session_state.campaign_data = generate_demo_data()
 
-        st.markdown("---")
-        st.write("🔔 **Données réelles disponibles dans la version Premium.**")
-        st.button("Passer à la version Premium")
+    # Menu principal
+    menu = st.sidebar.radio(t["menu"],
+                          [t["dashboard"], t["analysis"], t["charts"], t["settings"], t["premium_page"]],
+                          label_visibility="collapsed")
 
-    # Page Analyse
-    elif menu == "Analyse":
-        st.title("Analyse détaillée de la campagne")
-        st.write(f"Objectif de la campagne : {st.session_state.objectif}")
-        st.write(f"Budget total : {st.session_state.budget} €")
-        st.write(f"Durée estimée : {st.session_state.duration} jours")
+    # Contenu principal
+    if menu == t["dashboard"]:
+        st.subheader(f"📊 {t['dashboard']}")
         
-        st.markdown("### Détails de l'engagement")
-        st.write(f"Portée estimée : {st.session_state.reach}")
-        st.write(f"Engagement estimé : {st.session_state.engagement}")
-        st.write(f"Conversions estimées : {st.session_state.conversions}")
+        # Métriques en haut
+        display_metrics(st.session_state.campaign_data, t)
         
-        st.markdown("---")
-        st.write("🔔 **Version Premium pour des données réelles et plus d'analyses.**")
-        st.button("Passer à la version Premium")
-
-    # Page Graphiques
-    elif menu == "Graphiques":
-        st.title("Graphiques de la campagne")
-        graph_data = {
-            "category": ["Budget", "Portée estimée", "Engagement estimé", "Conversions estimées"],
-            "value": [st.session_state.budget, st.session_state.reach, st.session_state.engagement, st.session_state.conversions]
-        }
-        df = pd.DataFrame(graph_data)
-        fig = generate_bar_chart(df)
-        st.plotly_chart(fig)
-
-        st.markdown("---")
-        st.write("🔔 **Accédez à plus de graphiques et visualisations avec la version Premium.**")
-        st.button("Passer à la version Premium")
-
-    # Page Paramètres
-    elif menu == "Paramètres":
-        st.title("Paramètres de la campagne")
-        st.write("Vous pouvez ajuster les paramètres ci-dessous pour simuler différentes configurations de campagne.")
+        # Graphiques
+        generate_charts(st.session_state.campaign_data, t)
         
-        objectif = st.text_input("Objectif de la campagne", value=st.session_state.objectif)
-        budget = st.number_input("Budget en €", min_value=1, max_value=10000, value=st.session_state.budget)
-        duration = st.number_input("Durée en jours", min_value=1, max_value=365, value=st.session_state.duration)
-        reach = st.number_input("Portée estimée", min_value=1000, max_value=1000000, value=st.session_state.reach)
-        engagement = st.number_input("Engagement estimé", min_value=1, max_value=100000, value=st.session_state.engagement)
-        conversions = st.number_input("Conversions estimées", min_value=1, max_value=10000, value=st.session_state.conversions)
+        # Recommandations
+        if premium_activated:
+            display_recommendations(t)
+        else:
+            st.warning(t["premium_info"])
 
-        if st.button("Mettre à jour les données de la campagne"):
-            # Mettre à jour les valeurs dans session_state
-            st.session_state.objectif = objectif
-            st.session_state.budget = budget
-            st.session_state.duration = duration
-            st.session_state.reach = reach
-            st.session_state.engagement = engagement
-            st.session_state.conversions = conversions
+    elif menu == t["analysis"]:
+        st.subheader(f"📈 {t['analysis']}")
+        
+        col1, col2 = st.columns([2, 1])
+        
+        with col1:
+            st.write("""
+            ## Analyse des Performances
+            Cette section fournit une analyse approfondie de votre campagne marketing.
+            """)
+            
+            df = pd.DataFrame({
+                "Jour": range(1, st.session_state.campaign_data["duration"] + 1),
+                "Engagement": [random.randint(100, 1000) for _ in range(st.session_state.campaign_data["duration"])],
+                "Conversions": [random.randint(10, 100) for _ in range(st.session_state.campaign_data["duration"])]
+            })
+            
+            fig = px.line(df, x="Jour", y=["Engagement", "Conversions"],
+                         title="Évolution quotidienne des performances",
+                         color_discrete_sequence=["#4e79a7", "#f28e2b"])
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.write("""
+            ## Insights Clés
+            - Taux d'engagement moyen: 4.5%
+            - Coût par conversion: €12.50
+            - ROI estimé: 3.2x
+            """)
+            
+            if premium_activated:
+                st.success("""
+                🔍 Insights Premium:
+                - Meilleur créneau horaire: 14h-16h
+                - Audience la plus réceptive: 25-34 ans
+                """)
+            else:
+                st.info("Activez le mode Premium pour obtenir des insights avancés")
 
-            st.write("Les données de la campagne ont été mises à jour.")
-            st.write(f"Nouvelle portée estimée : {reach}")
-            st.write(f"Nouvelle engagement estimée : {engagement}")
-            st.write(f"Nouvelle conversions estimées : {conversions}")
+    elif menu == t["charts"]:
+        st.subheader(f"📊 {t['charts']}")
+        
+        tab1, tab2, tab3 = st.tabs(["Principaux indicateurs", "Analyse temporelle", "Comparaisons"])
+        
+        with tab1:
+            generate_charts(st.session_state.campaign_data, t)
+        
+        with tab2:
+            st.write("Analyse temporelle à venir...")
+        
+        with tab3:
+            st.write("Fonctionnalité Premium - Comparaison avec les campagnes précédentes")
+            if not premium_activated:
+                st.warning(t["premium_info"])
 
-        st.markdown("---")
-        st.write("🔔 **Passez à la version Premium pour personnaliser davantage.**")
-        st.button("Passer à la version Premium")
+    elif menu == t["settings"]:
+        st.subheader(f"⚙️ {t['settings']}")
+        
+        with st.form("campaign_settings"):
+            st.session_state.campaign_data["objectif"] = st.text_input(
+                f"🎯 {t['objective']}",
+                st.session_state.campaign_data["objectif"]
+            )
+            
+            cols = st.columns(2)
+            with cols[0]:
+                st.session_state.campaign_data["budget"] = st.number_input(
+                    f"💰 {t['budget']}",
+                    value=st.session_state.campaign_data["budget"],
+                    min_value=0
+                )
+                st.session_state.campaign_data["reach"] = st.number_input(
+                    f"👥 {t['reach']}",
+                    value=st.session_state.campaign_data["reach"],
+                    min_value=0
+                )
+            
+            with cols[1]:
+                st.session_state.campaign_data["duration"] = st.number_input(
+                    f"⏱️ {t['duration']}",
+                    value=st.session_state.campaign_data["duration"],
+                    min_value=1
+                )
+                st.session_state.campaign_data["conversions"] = st.number_input(
+                    f"🔄 {t['conversions']}",
+                    value=st.session_state.campaign_data["conversions"],
+                    min_value=0
+                )
+            
+            if st.form_submit_button("💾 Sauvegarder les paramètres"):
+                st.success(t["update_success"])
+                time.sleep(1)
+                st.rerun()
+    
+    elif menu == t["premium_page"]:
+        show_premium_page(t)
 
-    # Générer le PDF
-    if st.button("Générer le rapport PDF"):
-        # Passer les valeurs mises à jour
-        pdf_bytes = save_pdf(st.session_state.objectif, st.session_state.budget, st.session_state.duration, 
-                             st.session_state.reach, st.session_state.engagement, st.session_state.conversions)
-        st.download_button(
-            label="📄 Télécharger le rapport PDF",
-            data=pdf_bytes,
-            file_name="rapport_campagne.pdf",
-            mime="application/pdf"
-        )
+    # Génération PDF (disponible partout)
+    st.sidebar.markdown("---")
+    if st.sidebar.button(t["generate_pdf"]):
+        with st.spinner("Génération du rapport..."):
+            pdf_data = save_pdf(
+                st.session_state.campaign_data["objectif"],
+                st.session_state.campaign_data["budget"],
+                st.session_state.campaign_data["duration"],
+                st.session_state.campaign_data["reach"],
+                st.session_state.campaign_data["engagement"],
+                st.session_state.campaign_data["conversions"],
+                t
+            )
+            
+            st.sidebar.download_button(
+                label=t["download_pdf"],
+                data=pdf_data,
+                file_name="rapport_campagne.pdf",
+                mime="application/pdf"
+            )
 
 if __name__ == "__main__":
     main()
