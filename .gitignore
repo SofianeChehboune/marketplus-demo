@@ -1,48 +1,22 @@
-# --- Protection des secrets ---
-.env                # Variables d'environnement locales
-.streamlit/secrets.toml  # Configuration sensible Streamlit
-config_*.json       # Fichiers de configuration
+# Fichiers sensibles
+.env
+.streamlit/
+secrets.toml
 
-# --- Environnements virtuels ---
-.venv/
+# Environnements virtuels
 venv/
-env/
-ENV/
-env.bak/
-venv.bak/
 
-# --- Cache Python ---
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+# Fichiers média
+*.jpg
+*.png
+*.jpeg
 
-# --- Fichiers générés ---
-*.log
-*.sqlite
-*.sqlite3
-*.db
-*.spec
-dist/
-build/
-*.egg-info/
-
-# --- IDE ---
-.vscode/
-.idea/
-.spyproject
-.spyderproject
-*.swp
-
-# --- Données temporaires ---
-data/
-tmp/
+# Fichiers de données
 *.csv
 *.xlsx
 *.parquet
+*.db
 
-# --- Streamlit spécifique ---
-.streamlit/config.toml  # Configuration personnelle
-__pytransform__/    # Cache spécifique Streamlit
+# Cache Python
+__pycache__/
+*.py[cod]
