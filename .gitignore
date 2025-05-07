@@ -20,3 +20,4 @@ venv/
 # Cache Python
 __pycache__/
 *.py[cod]
+.streamlit/secrets.toml
