@@ -1,7 +1,5 @@
-streamlit==1.20.0
-plotly==5.11.0
-pandas==1.5.3 --only-binary :all:
-Pillow==9.4.0 --only-binary :all:
-# reportlab==3.6.1
-
-
+streamlit
+plotly
+pandas
+Pillow
+reportlab
