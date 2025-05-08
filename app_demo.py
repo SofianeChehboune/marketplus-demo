@@ -493,10 +493,15 @@ def main():
                 key="sidebar_download_button"
             )
       # ✅ Bouton WhatsApp bien placé sous le formulaire
+     # 📌 Section pour activer la version Premium
+    st.markdown("### 🔐 Vous souhaitez accéder à la version Premium ?")
+    st.markdown("Profitez de toutes les fonctionnalités avancées avec les données réelles. Contactez-moi directement pour l’activer :")
+
+    # ✅ Bouton WhatsApp bien placé sous le message
     st.markdown(
         """
         <div style="display: flex; justify-content: left; margin-top: 10px;">
-            <a href="https://wa.me/+213561677957" target="_blank" style="text-decoration: none;">
+            <a href="https://wa.me/213561677957" target="_blank" style="text-decoration: none;">
                 <button style="
                     display: flex;
                     align-items: center;
@@ -511,7 +516,7 @@ def main():
                     cursor: pointer;
                     transition: 0.3s;
                 ">
-                    📱 Contactez-moi sur WhatsApp
+                    📱 Activer la version Premium via WhatsApp
                 </button>
             </a>
         </div>
@@ -519,39 +524,41 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Ajout d'une citation inspirante
+    # 🎯 Citation inspirante aléatoire
     quotes = [
-    """<div style="background-color:#f0f2f6; padding:15px; border-radius:8px; margin:15px 0; border-left:4px solid #6e00ff;">
-    <em>🔍✨ "Dans un océan de données, l'analyste est le phare qui révèle les opportunités cachées." 🌊💎</em></div>""",
-    
-    """<div style="background-color:#e3f2fd; padding:15px; border-radius:8px; margin:15px 0; border-left:4px solid #2196f3;">
-    <em>📈🎯 "Le marketing sans données, c'est comme conduire les yeux fermés..." 👀🚀</em></div>"""
+        """<div style="background-color:#f0f2f6; padding:15px; border-radius:8px; margin:15px 0; border-left:4px solid #6e00ff;">
+        <em>🔍✨ "Dans un océan de données, l'analyste est le phare qui révèle les opportunités cachées." 🌊💎</em></div>""",
+
+        """<div style="background-color:#e3f2fd; padding:15px; border-radius:8px; margin:15px 0; border-left:4px solid #2196f3;">
+        <em>📈🎯 "Le marketing sans données, c'est comme conduire les yeux fermés..." 👀🚀</em></div>"""
     ]
     st.markdown(random.choice(quotes), unsafe_allow_html=True)
 
-    # Message de contact
+    # 🧩 Bloc MarketPlus Premium
     st.markdown(
-    """
-    <div style="background:linear-gradient(to right, #ff8a00, #da1b60); padding:15px; border-radius:8px; text-align:center; margin:15px 0;">
-    <h3 style="color:white; margin:0;">✨ <strong>MarketPlus Premium</strong></h3>
-    <p style="color:white; margin:5px 0 0 0;">📊 Transformez vos données en résultats concrets</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        """
+        <div style="background:linear-gradient(to right, #ff8a00, #da1b60); padding:15px; border-radius:8px; text-align:center; margin:15px 0;">
+        <h3 style="color:white; margin:0;">✨ <strong>MarketPlus Premium</strong></h3>
+        <p style="color:white; margin:5px 0 0 0;">📊 Transformez vos données en résultats concrets</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # 💡 Version minimaliste et élégante
+    st.markdown(
+        """
+        <div style="background-color:#f9f9f9; padding:15px; border-left:4px solid #6e00ff; margin:15px 0;">
+        <p style="margin:0; font-size:16px;">
+        📈 <strong>Envie d'analyses plus poussées ?</strong><br>
+        L'abonnement Premium vous donne accès à des insights exclusifs et un accompagnement personnalisé.
+        </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
     
-     # Version minimaliste et élégante :
-    st.markdown(
-    """
-    <div style="background-color:#f9f9f9; padding:15px; border-left:4px solid #6e00ff; margin:15px 0;">
-    <p style="margin:0; font-size:16px;">
-    📈 <strong>Envie d'analyses plus poussées ?</strong><br>
-    L'abonnement Premium vous donne accès à des insights exclusifs et un accompagnement personnalisé.
-    </p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
     # Signature
     st.markdown(f"<div style='margin-top:50px;font-size:12px;color:gray'>{t['signature']}</div>", unsafe_allow_html=True)
 
