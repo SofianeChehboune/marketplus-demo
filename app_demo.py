@@ -9,7 +9,7 @@ import base64
 import time
 
 # ------------- CHARGEMENT DU CODE PREMIUM -------------
-PREMIUM_CODE = st.secrets["premium"]["code"] 
+PREMIUM_CODE = st.secrets["premium"]["code"]
 
 # ---------- MULTILINGUE ----------
 translations = {
