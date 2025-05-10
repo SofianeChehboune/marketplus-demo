@@ -230,7 +230,7 @@ def show_premium_page(t):
     
     # Bouton pour voir la vidéo
     if st.button(t["watch_video"], key="watch_video_button"):
-        st.video("https://www.youtube.com/watch?v=TON_ID_VIDEO")
+        st.video("https://www.youtube.com/watch?v=I_YxToyBFCI")
 
     # Lien vers la page d'achat
     st.markdown(f"""
