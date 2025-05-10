@@ -230,7 +230,7 @@ def show_premium_page(t):
     
     # Bouton pour voir la vidéo
     if st.button(t["watch_video"], key="watch_video_button"):
-        st.video("https://www.youtube.com/watch?v=I_YxToyBFCI")
+        st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t")
 
     # Lien vers la page d'achat
     st.markdown(f"""
@@ -331,7 +331,7 @@ def main():
             st.sidebar.success(t["code_valid"])
             st.sidebar.markdown(
                 f"""
-                <a href="https://marketpulse-ai-cioz3bh3tuv3vf5swqgqwu.streamlit.app/" target="_blank">
+                <a href="https://marketpulse-ai-ukc7xufxgvukuxrsc3jhp6.streamlit.app/" target="_blank">
                     <button style="width:100%;background-color:#4CAF50;color:white;padding:10px;border:none;border-radius:5px;margin-top:10px;margin-bottom:20px;">
                         {t['premium_button']}
                     </button>
