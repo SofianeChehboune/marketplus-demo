@@ -230,11 +230,10 @@ def show_premium_page(t):
     ################################################
     # Bouton pour voir la vidéo
 
-
-  t = {"watch_video": "🎥 Regarder la vidéo sur YouTube"}
+t = {"watch_video": "🎥 Regarder la vidéo sur YouTube"}
 
 # Créer un bouton rouge avec un lien YouTube
-  st.markdown(f"""
+st.markdown(f"""
     <style>
     .youtube-button {{
         display: inline-block;
