@@ -227,10 +227,9 @@ def show_premium_page(t):
         <p>{t['premium_description']}</p>
     </div>
     """, unsafe_allow_html=True)
-    ################################################
-    # Bouton pour voir la vidéo
- # Style personnalisé pour le bouton YouTube
-st.markdown("""
+    
+    # Style personnalisé pour le bouton YouTube
+    st.markdown("""
     <style>
     div.stButton > button#watch_video_button {
         background-color: #FF0000;
@@ -245,14 +244,12 @@ st.markdown("""
         color: #fff;
     }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-# Bouton pour voir la vidéo avec lecture intégrée sur la page
-if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
-    st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
-
+    # Bouton pour voir la vidéo avec lecture intégrée sur la page
+    if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
+        st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
     
-    ###########################
     # Lien vers la page d'achat
     st.markdown(f"""
     ### {t['upgrade']}
@@ -321,20 +318,16 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # Choix de la langue
-    
     # Choix de la langue avec noms en majuscules et indicateurs de langue
     lang = st.sidebar.selectbox(
-    "🌐 LANGUAGE / اللغة /LANGUE ", 
-    options=["en", "ar", "fr"],
-    format_func=lambda x: {
-        "ar": "العربية 🇩🇿",
-        "en": "ENGLISH 🇬🇧",
-        "fr": "FRANÇAIS 🇫🇷"
-        
-        
-    }[x],
-    help="Sélectionnez votre langue préférée")
+        "🌐 LANGUAGE / اللغة /LANGUE ", 
+        options=["en", "ar", "fr"],
+        format_func=lambda x: {
+            "ar": "العربية 🇩🇿",
+            "en": "ENGLISH 🇬🇧",
+            "fr": "FRANÇAIS 🇫🇷"
+        }[x],
+        help="Sélectionnez votre langue préférée")
     t = translations[lang]
 
     st.title(t["app_title"])
@@ -513,10 +506,10 @@ def main():
                 mime="application/pdf",
                 key="sidebar_download_button"
             )
-      # ✅ Bouton WhatsApp bien placé sous le formulaire
-     # 📌 Section pour activer la version Premium
+    
+    # ✅ Bouton WhatsApp bien placé sous le formulaire
     st.markdown("### 🔐 Vous souhaitez accéder à la version Premium ?")
-    st.markdown("Profitez de toutes les fonctionnalités avancées avec les données réelles. Contactez-moi directement pour l’activer :")
+    st.markdown("Profitez de toutes les fonctionnalités avancées avec les données réelles. Contactez-moi directement pour l'activer :")
 
     # ✅ Bouton WhatsApp bien placé sous le message
     st.markdown(
@@ -578,7 +571,6 @@ def main():
         """,
         unsafe_allow_html=True
     )
-
     
     # Signature
     st.markdown(f"<div style='margin-top:50px;font-size:12px;color:gray'>{t['signature']}</div>", unsafe_allow_html=True)
