@@ -302,6 +302,7 @@ def show_premium_page(t):
 
 # ----------- MAIN APP LOGIC -----------
 def main():
+    # DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT
     st.set_page_config(page_title="MarketPlus", layout="wide", page_icon="📈")
     
     # CSS personnalisé
