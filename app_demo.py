@@ -229,33 +229,9 @@ def show_premium_page(t):
     """, unsafe_allow_html=True)
     ################################################
     # Bouton pour voir la vidéo
-
-    t = {"watch_video": "🎥 Regarder la vidéo sur YouTube"}
-
-     # Bouton rouge vers la vidéo YouTube
-    st.markdown(f"""
-     <style>
-     .youtube-button {{
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        color: white;
-        background-color: #FF0000;
-        border: none;
-        border-radius: 8px;
-        text-decoration: none;
-    }}
-    .youtube-button:hover {{
-        background-color: #cc0000;
-    }}
-    </style>
-
-    <a href="https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s" target="_blank" class="youtube-button">
-        ▶️ {t["watch_video"]}
-    </a>
-    """, unsafe_allow_html=True)
-
+    if st.button(t["watch_video"], key="watch_video_button"):
+        st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t")
+        
     ###########################
     # Lien vers la page d'achat
     st.markdown(f"""
