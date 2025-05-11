@@ -229,27 +229,35 @@ def show_premium_page(t):
     """, unsafe_allow_html=True)
     
     # Style personnalisé pour le bouton YouTube
-    st.markdown("""
-    <style>
-    div.stButton > button#watch_video_button {
+    # Style personnalisé pour le bouton YouTube
+st.markdown("""
+<style>
+    div.stButton > button:first-child {
         background-color: #FF0000;
         color: white;
+        border: none;
+        padding: 12px 24px;
         font-weight: bold;
         border-radius: 8px;
-        height: 50px;
         width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    div.stButton > button#watch_video_button:hover {
-        background-color: #cc0000;
-        color: #fff;
+    div.stButton > button:first-child:hover {
+        background-color: #CC0000;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     }
-    </style>
-    """, unsafe_allow_html=True)
+    div.stButton > button:first-child:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+""", unsafe_allow_html=True)
 
-    # Bouton pour voir la vidéo avec lecture intégrée sur la page
-    if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
-        st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
-    
+# Bouton YouTube avec icône et style amélioré
+if st.button("▶️ Regarder la démonstration sur YouTube", key="watch_video_button"):
+    st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
     # Lien vers la page d'achat
     st.markdown(f"""
     ### {t['upgrade']}
