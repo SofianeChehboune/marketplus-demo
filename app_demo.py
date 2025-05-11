@@ -229,7 +229,7 @@ def show_premium_page(t):
     """, unsafe_allow_html=True)
     ################################################
     # Bouton pour voir la vidéo
-    # Style personnalisé pour le bouton YouTube
+ # Style personnalisé pour le bouton YouTube
 st.markdown("""
     <style>
     div.stButton > button#watch_video_button {
@@ -250,8 +250,7 @@ st.markdown("""
 # Bouton pour voir la vidéo avec lecture intégrée sur la page
 if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
     st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
-
-        
+    
     ###########################
     # Lien vers la page d'achat
     st.markdown(f"""
