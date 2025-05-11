@@ -246,9 +246,9 @@ def show_premium_page(t):
     </style>
     """, unsafe_allow_html=True)
 
-# Bouton YouTube (inchangé mais maintenant rouge)
-if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
-    st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
+    # Bouton YouTube (inchangé mais maintenant rouge)
+    if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
+        st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
     
     # Lien vers la page d'achat
     st.markdown(f"""
