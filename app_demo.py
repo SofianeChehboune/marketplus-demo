@@ -227,21 +227,29 @@ def show_premium_page(t):
         <p>{t['premium_description']}</p>
     </div>
     """, unsafe_allow_html=True)
-####################################"
-    # Style personnalisé pour le bouton YouTube
+    
+    # Style personnalisé uniquement pour le bouton YouTube
     st.markdown("""
     <style>
-        div.stButton > button:first-child {
-            background-color: #FF0000;
-            color: white;
+        /* Cible spécifiquement le bouton YouTube via son key */
+        div[data-testid="stButton"] button[kind="secondary"]:has(> div > div > svg[data-testid="PlayArrowIcon"]) {
+            background-color: #FF0000 !important;
+            color: white !important;
+            border-color: #CC0000 !important;
+        }
+        
+        /* Effet hover */
+        div[data-testid="stButton"] button[kind="secondary"]:has(> div > div > svg[data-testid="PlayArrowIcon"]):hover {
+            background-color: #CC0000 !important;
+            border-color: #990000 !important;
         }
     </style>
     """, unsafe_allow_html=True)
 
-    # Bouton YouTube
+    # Bouton YouTube (inchangé mais maintenant rouge)
     if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
         st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
-########################################
+    
     # Lien vers la page d'achat
     st.markdown(f"""
     ### {t['upgrade']}
@@ -297,13 +305,10 @@ def main():
     # DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT
     st.set_page_config(page_title="MarketPlus", layout="wide", page_icon="📈")
     
-    # CSS personnalisé
+    # CSS personnalisé global (ne modifie pas les boutons)
     st.markdown("""
     <style>
         .main {background-color: #f9f9f9;}
-        .stButton>button {border-radius: 8px; padding: 8px 16px;}
-        .stTextInput>div>div>input {border-radius: 8px;}
-        .stNumberInput>div>div>input {border-radius: 8px;}
         .metric {border-left: 4px solid #4e79a7; padding-left: 15px;}
         .st-bb {background-color: white;}
         .st-at {background-color: #f0f2f6;}
@@ -462,7 +467,7 @@ def main():
     elif menu == t["premium_page"]:
         show_premium_page(t)
 
-    # Génération PDF dans le corps principal
+    # Génération PDF dans le corps principal (style inchangé)
     st.header(t["generate_pdf"])
     if st.button(t["generate_pdf"], key="main_pdf_button"):
         pdf_buffer = save_pdf(
@@ -478,7 +483,7 @@ def main():
         href = f'<a href="data:application/octet-stream;base64,{b64}" download="rapport_marketplus.pdf">{t["download_pdf"]}</a>'
         st.markdown(href, unsafe_allow_html=True)
 
-    # Génération PDF dans le sidebar
+    # Génération PDF dans le sidebar (style inchangé)
     st.sidebar.markdown("---")
     if st.sidebar.button(t["generate_pdf"], key="sidebar_pdf_button"):
         with st.spinner("Génération du rapport..."):
@@ -500,7 +505,7 @@ def main():
                 key="sidebar_download_button"
             )
     
-    # Bouton WhatsApp
+    # Bouton WhatsApp (style inchangé)
     st.markdown("### 🔐 Vous souhaitez accéder à la version Premium ?")
     st.markdown("Profitez de toutes les fonctionnalités avancées avec les données réelles. Contactez-moi directement pour l'activer :")
 
