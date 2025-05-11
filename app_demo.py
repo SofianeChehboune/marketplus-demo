@@ -229,8 +229,28 @@ def show_premium_page(t):
     """, unsafe_allow_html=True)
     ################################################
     # Bouton pour voir la vidéo
-    if st.button(t["watch_video"], key="watch_video_button"):
-        st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t")
+    # Style personnalisé pour le bouton YouTube
+st.markdown("""
+    <style>
+    div.stButton > button#watch_video_button {
+        background-color: #FF0000;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        height: 50px;
+        width: 100%;
+    }
+    div.stButton > button#watch_video_button:hover {
+        background-color: #cc0000;
+        color: #fff;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Bouton pour voir la vidéo avec lecture intégrée sur la page
+if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
+    st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
+
         
     ###########################
     # Lien vers la page d'achat
