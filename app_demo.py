@@ -250,6 +250,7 @@ st.markdown("""
 # Bouton pour voir la vidéo avec lecture intégrée sur la page
 if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
     st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
+
     
     ###########################
     # Lien vers la page d'achat
