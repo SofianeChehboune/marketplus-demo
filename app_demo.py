@@ -230,8 +230,8 @@ def show_premium_page(t):
     
     # Style personnalisé pour le bouton YouTube
     # Style personnalisé pour le bouton YouTube
-st.markdown("""
-<style>
+    st.markdown("""
+    <style>
     div.stButton > button:first-child {
         background-color: #FF0000;
         color: white;
@@ -251,9 +251,9 @@ st.markdown("""
     div.stButton > button:first-child:active {
         transform: translateY(0);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-</style>
-""", unsafe_allow_html=True)
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
 # Bouton YouTube avec icône et style amélioré
 if st.button("▶️ Regarder la démonstration sur YouTube", key="watch_video_button"):
