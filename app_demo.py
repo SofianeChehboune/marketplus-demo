@@ -248,10 +248,9 @@ def show_premium_page(t):
 
     
     ######################
-
-    # Style personnalisé : rouge YouTube pour le bouton
-    st.markdown("""
-    <style>$
+# Style personnalisé : rouge YouTube pour le bouton
+st.markdown("""
+    <style>
     div.stButton > button#watch_video_button {
         background-color: #FF0000;  /* Rouge YouTube */
         color: white;
@@ -265,8 +264,13 @@ def show_premium_page(t):
         background-color: #CC0000;
     }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
+# Bouton YouTube (inchangé mais maintenant rouge)
+if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
+    st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
+
+######################""
 # Bouton YouTube (inchangé mais maintenant rouge)
 if st.button("▶️ Regarder sur YouTube", key="watch_video_button"):
     st.video("https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s")
