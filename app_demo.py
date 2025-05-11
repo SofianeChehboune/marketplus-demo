@@ -230,12 +230,12 @@ def show_premium_page(t):
     ################################################
     # Bouton pour voir la vidéo
 
-t = {"watch_video": "🎥 Regarder la vidéo sur YouTube"}
+    t = {"watch_video": "🎥 Regarder la vidéo sur YouTube"}
 
-# Bouton rouge vers la vidéo YouTube
-st.markdown(f"""
-    <style>
-    .youtube-button {{
+     # Bouton rouge vers la vidéo YouTube
+     st.markdown(f"""
+     <style>
+     .youtube-button {{
         display: inline-block;
         padding: 10px 20px;
         font-size: 16px;
@@ -254,7 +254,7 @@ st.markdown(f"""
     <a href="https://www.youtube.com/watch?v=GoHS3oA4kJA&t=2s" target="_blank" class="youtube-button">
         ▶️ {t["watch_video"]}
     </a>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
     ###########################
     # Lien vers la page d'achat
